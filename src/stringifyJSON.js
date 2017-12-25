@@ -33,8 +33,8 @@ var stringifyJSON = function(obj) {
 
   	//if obj is an array, add brackets and iterate through array; recursively call function for each element in array
     if (Array.isArray(obj)){
+    	
     	jsonString+="[";
-
     	//iterate through each array element and recursively call function on element (excl. last element which will not need a ',' but a ']' instead)
       for (var i=0; i<obj.length-1;i++){
        recursiveStringifyJSON(obj[i]);
@@ -48,14 +48,31 @@ var stringifyJSON = function(obj) {
 
     //if obj is an object (not array), add curly bracket and iterate through object keys; recursively call function for each value in object
     if (Array.isArray(obj) === false){
+      console.log(obj);
+      jsonString+="{";
 
+      //iterate through keys of object addiong keys as string and recursively calling on function for each value of keys
+      for (var keys in obj){
+
+       //Ensure that objects do NOT contain a function nor are undefined
+       if (typeof obj[keys] !== "function" && typeof obj[keys] !== "undefined"){
+	       jsonString+= "\"" + keys + "\":";
+
+	       recursiveStringifyJSON(obj[keys]); //recursive call for values of object
+
+	       if (keys !== Object.keys(obj)[Object.keys(obj).length-1]){
+	       	jsonString+=","; //add comma as long as its NOT the last property in obj
+         }
+       }
+      }
+
+      jsonString+="}"; //close obj curly brace
 
     }
 
-
   }
 
-  recursiveStringifyJSON(obj);
+  recursiveStringifyJSON(obj); //Initial recursive function call in main body
 
   return jsonString;
 
