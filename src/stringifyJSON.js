@@ -48,7 +48,6 @@ var stringifyJSON = function(obj) {
 
     //if obj is an object (not array), add curly bracket and iterate through object keys; recursively call function for each value in object
     if (Array.isArray(obj) === false){
-      console.log(obj);
       jsonString+="{";
 
       //iterate through keys of object addiong keys as string and recursively calling on function for each value of keys
